@@ -13,17 +13,17 @@ export class TodoListComponent implements OnInit, DoCheck {
       this.taskList.push({task : s, checked : false});
    }
     
-   public taskList : Array<TaskList> = [
-
-   ];
-
+   public taskList : Array<TaskList> = JSON.parse(localStorage.getItem("list") || '[]');
   constructor() { }
 
   ngOnInit(): void {
   }
 
   ngDoCheck(): void {
+    if (this.taskList) {
       this.taskList.sort((first, last) => Number(first.checked) - Number(last.checked))
+      localStorage.setItem("list", JSON.stringify(this.taskList));
+    }
   }
 
   public validationInput(task : string, index : number){
